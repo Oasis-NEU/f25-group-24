@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "vite": "^7.1.9"
+    "@supabase/supabase-js": "^2.75.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.10"
   }
 }
