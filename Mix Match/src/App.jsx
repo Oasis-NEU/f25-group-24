@@ -1,36 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import React, { useState } from 'react';
+import MainPage from './pages/MainPage';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [listings, setListings] = useState([
+        {
+            id: 1,
+            title: "Calculus Textbook",
+            price: 45,
+            category: "textbooks",
+            description: "Barely used calculus textbook",
+            seller_name: "John Doe",
+            seller_rating: 4.5,
+            image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400"
+        },
+        {
+            id: 2,
+            title: "Dorm Room Essentials",
+            price: 30,
+            category: "furniture",
+            description: "Complete set of dorm room essentials",
+            seller_name: "Jane Smith",
+            seller_rating: 4.8,
+            image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400"
+        },
+        {
+            id: 3,
+            title: "Bicycle for Sale",
+            price: 120,
+            category: "transportation",
+            description: "Gently used bicycle in great condition",
+            seller_name: "Mike Johnson",
+            seller_rating: 4.2,
+            image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400"
+        }
+    ]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    // Placeholder functions for Week 3
+    const handleCreateListing = (formData) => {
+        console.log('Create listing:', formData);
+        alert('Create listing functionality will be added in a later week!');
+    };
+
+    const handleDeleteListing = (id) => {
+        console.log('Delete listing:', id);
+        alert('Delete listing functionality will be added in a later week!');
+    };
+
+    const handleAddToCart = (listing) => {
+        console.log('Add to cart:', listing);
+        alert('Cart functionality will be added in a later week!');
+    };
+
+    const handleCartClick = () => {
+        alert('Cart page will be added in a later week!');
+    };
+
+    return (
+        <MainPage
+            listings={listings}
+            onCreateListing={handleCreateListing}
+            onDeleteListing={handleDeleteListing}
+            onAddToCart={handleAddToCart}
+            cartItemCount={0}
+            onNavigateToCart={handleCartClick}
+        />
+    );
 }
 
-export default App
+export default App;

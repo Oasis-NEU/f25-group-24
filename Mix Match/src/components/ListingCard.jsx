@@ -9,20 +9,20 @@ function ListingCard({ listing, onClick, onDelete }) {
     >
       <img
         src={listing.image}
-        alt={listing.title}
+        alt={listing.brand}
         className="w-full h-48 object-cover rounded mb-3"
       />
       
       <h3 className="text-lg font-bold" style={{ color: colors.text }}>
-        {listing.title}
+        {listing.brand}
       </h3>
       
       <p className="text-xl font-bold" style={{ color: colors.banner }}>
-        ${listing.price}
+        {listing.frequency_of_wear}
       </p>
       
       <p className="text-sm text-gray-600 mb-2">
-        {listing.description}
+        {listing.size}
       </p>
       
       <div className="flex justify-between items-center text-sm">
