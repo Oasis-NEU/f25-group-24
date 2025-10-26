@@ -57,12 +57,15 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
                 onChange={(e) => handleChange('category', e.target.value)}
                 className="w-full px-3 py-2 border rounded"
               >
-                {categories.filter(c => c.value !== 'all').map(c => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
+                {categories.filter(cat => cat.value !== "all").map(cat => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
+
 
           {/* Size */}
           <div>
@@ -91,22 +94,24 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
             <label className="block mb-1 text-left">Image URL</label>
             <input
               type="url"
-              //placeholder="https://example.com/item.jpg"
-              value={formData.image || ''}
+              value={formData.image}
               onChange={(e) => handleChange('image', e.target.value)}
               className="w-full px-3 py-2 border rounded"
+              placeholder="https://example.com/image.jpg"
             />
-            {/* Optional preview */}
-            {formData.image ? (
-              <img
-                src={formData.image}
-                alt="Preview"
-                className="mt-2 h-32 w-full object-cover rounded border"
-                onError={(e) => { e.currentTarget.style.display = 'none'; }}
-              />
-            ) : null}
+            {formData.image && (
+              <div className="mt-2">
+                <img
+                  src={formData.image}
+                  alt="Preview"
+                  className="w-full h-32 object-cover rounded border"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
           </div>
-
           <div className="flex gap-3 pt-2">
             <button
               type="button"

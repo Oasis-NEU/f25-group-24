@@ -47,14 +47,27 @@ function App() {
 
     // Placeholder functions for Week 3
     const handleCreateListing = (formData) => {
-        console.log('Create listing:', formData);
-        alert('Create listing functionality will be added in a later week!');
-    };
+  const newListing = {
+    id: Date.now(),  // simple unique id
+    brand: formData.brand,
+    frequency_of_wear: Number(formData.frequency_of_wear),
+    category: formData.category,
+    size: formData.size,
+    color: formData.color,
+    image: formData.image,           // 👈 image URL from modal
+    seller_name: 'You',
+    seller_rating: 5.0
+  };
+
+  // Add new listing to top of the list
+  setListings(prev => [newListing, ...prev]);
+};
+
 
     const handleDeleteListing = (id) => {
-        console.log('Delete listing:', id);
-        alert('Delete listing functionality will be added in a later week!');
-    };
+  setListings(prev => prev.filter(listing => listing.id !== id));
+};
+
 
     const handleAddToCart = (listing) => {
         console.log('Add to cart:', listing);

@@ -1,4 +1,4 @@
-import { X, MessageCircle, Trash2, User, MapPin, Star, ShoppingCart } from 'lucide-react';
+import { X, MessageCircle, Edit, Trash2, User, MapPin, Star, ShoppingCart } from 'lucide-react';
 import { colors } from '../constants/colors';
 
 function ListingDetailModal({ listing, onClose, onDelete, onAddToCart }) {
@@ -72,6 +72,13 @@ function ListingDetailModal({ listing, onClose, onDelete, onAddToCart }) {
             <button
               onClick={() => onDelete(listing.id)}
               className="px-4 py-3 border border-red-300 text-red-600 rounded flex items-center gap-2"
+            >
+              <Edit size={20} />
+                  Edit
+                </button>
+                <button
+                  onClick={() => onDelete(listing.id)}
+                  className="px-4 py-3 border border-red-300 text-red-600 rounded flex items-center gap-2"
             >
               <Trash2 size={20} />
               Delete
