@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import MainPage from './pages/MainPage';
-import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -78,25 +77,6 @@ function App() {
     );
 }
 
-export default App;
-import { useEffect } from 'react'
-import { supabase } from './supabaseClient'
-
-function App() {
-  useEffect(() => {
-    async function testConnection() {
-      const { data, error } = await supabase.from('Items').select('*').limit(1)
-      if (error) {
-        console.error('❌ Supabase connection failed:', error.message)
-      } else {
-        console.log('✅ Supabase connection successful! Data:', data)
-      }
-    }
-    testConnection()
-  }, [])
-
-  return <h1>Testing Supabase Connection...</h1>
-}
 
 
 export default App
