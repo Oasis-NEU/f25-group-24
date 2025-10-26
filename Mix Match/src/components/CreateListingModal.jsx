@@ -16,12 +16,16 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
           <h2 className="text-2xl font-bold" style={{ color: colors.text }}>
             Post New Item
           </h2>
-          <button onClick={onClose}>
+          <button type="button" onClick={onClose}>
             <X size={24} />
           </button>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }} className="space-y-4">
+        <form
+          onSubmit={(e) => { e.preventDefault(); onSubmit(); }}
+          className="space-y-4"
+        >
+          {/* Brand */}
           <div>
             <label className="block mb-1 text-left">Brand</label>
             <input
@@ -38,12 +42,14 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
               <label className="block mb-1">Frequency of Wear</label>
               <input
                 type="number"
+                min="0"
                 value={formData.frequency_of_wear}
                 onChange={(e) => handleChange('frequency_of_wear', e.target.value)}
                 className="w-full px-3 py-2 border rounded"
                 required
               />
             </div>
+
             <div>
               <label className="block mb-1 text-left">Category</label>
               <select
@@ -51,26 +57,25 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
                 onChange={(e) => handleChange('category', e.target.value)}
                 className="w-full px-3 py-2 border rounded"
               >
-                {categories.filter(cat => cat.value !== "all").map(cat => (
-                  <option key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </option>
+                {categories.filter(c => c.value !== 'all').map(c => (
+                  <option key={c.value} value={c.value}>{c.label}</option>
                 ))}
               </select>
             </div>
           </div>
 
+          {/* Size */}
           <div>
             <label className="block mb-1 text-left">Size</label>
             <input
-              type = "text"
+              type="text"
               value={formData.size}
               onChange={(e) => handleChange('size', e.target.value)}
               className="w-full px-3 py-2 border rounded"
-              /*rows={3} */
             />
           </div>
 
+          {/* Color */}
           <div>
             <label className="block mb-1 text-left">Color</label>
             <input
@@ -81,7 +86,28 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
             />
           </div>
 
-          <div className="flex gap-3">
+          {/* 🔗 Image URL */}
+          <div>
+            <label className="block mb-1 text-left">Image URL</label>
+            <input
+              type="url"
+              //placeholder="https://example.com/item.jpg"
+              value={formData.image || ''}
+              onChange={(e) => handleChange('image', e.target.value)}
+              className="w-full px-3 py-2 border rounded"
+            />
+            {/* Optional preview */}
+            {formData.image ? (
+              <img
+                src={formData.image}
+                alt="Preview"
+                className="mt-2 h-32 w-full object-cover rounded border"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
+            ) : null}
+          </div>
+
+          <div className="flex gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
