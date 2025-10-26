@@ -41,12 +41,12 @@ function ListingDetailModal({ listing, onClose, onDelete, onAddToCart }) {
                 </div>
               </div>
             </div>
-            <span className="text-3xl font-bold" style={{ color: colors.primary }}>
+            <span className="mb-6 tex-left" style={{ color: colors.primary }}>
               {listing.frequency_of_wear}
             </span>
           </div>
 
-          <p className="mb-6" style={{ color: colors.lightText }}>
+          <p className="mb-6 text-left" style={{ color: colors.lightText }}>
             {listing.size}
           </p>
 

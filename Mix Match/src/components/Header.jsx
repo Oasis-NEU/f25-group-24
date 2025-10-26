@@ -11,7 +11,7 @@ function Header({ onPostClick, cartItemCount, onCartClick }) {
         <div className="flex justify-between items-center mb-4">
           <div>
             <h1 className="font-serif text-5xl font-bold color: colors.text">Mix Match</h1>
-            <p className="font-serif color: colors.text">Your Closet</p>
+            <p className="font-serif color: colors.text text-left">Your Closet</p>
           </div>
           <div className="flex gap-4">
             <button

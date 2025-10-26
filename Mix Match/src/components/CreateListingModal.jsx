@@ -23,7 +23,7 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
 
         <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }} className="space-y-4">
           <div>
-            <label className="block mb-1">Brand</label>
+            <label className="block mb-1 text-left">Brand</label>
             <input
               type="text"
               value={formData.brand}
@@ -33,7 +33,7 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 text-left">
             <div>
               <label className="block mb-1">Frequency of Wear</label>
               <input
@@ -45,7 +45,7 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
               />
             </div>
             <div>
-              <label className="block mb-1">Category</label>
+              <label className="block mb-1 text-left">Category</label>
               <select
                 value={formData.category}
                 onChange={(e) => handleChange('category', e.target.value)}
@@ -61,7 +61,7 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
           </div>
 
           <div>
-            <label className="block mb-1">Size</label>
+            <label className="block mb-1 text-left">Size</label>
             <input
               type = "text"
               value={formData.size}
@@ -72,7 +72,7 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
           </div>
 
           <div>
-            <label className="block mb-1">Color</label>
+            <label className="block mb-1 text-left">Color</label>
             <input
               type="text"
               value={formData.color}
