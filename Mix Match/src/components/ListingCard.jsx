@@ -5,7 +5,7 @@ function ListingCard({ listing, onClick, onDelete }) {
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition cursor-pointer"
+      className="bg-white rounded-lg shadow-md p-8 hover:shadow-lg transition cursor-pointer"
     >
       <img
         src={listing.image}
@@ -14,15 +14,21 @@ function ListingCard({ listing, onClick, onDelete }) {
       />
       
       <h3 className="text-lg font-bold" style={{ color: colors.text }}>
-        {listing.brand}
+        Brand: {listing.brand}
       </h3>
       
-      <p className="text-xl font-bold" style={{ color: colors.banner }}>
-        {listing.frequency_of_wear}
-      </p>
       
-      <p className="text-sm text-gray-600 mb-2">
-        {listing.size}
+      <div className="flex gap-3">
+        <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+          {listing.size}
+        </span>
+        <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+          {listing.category}
+        </span>
+      </div>
+
+      <p className="text-sm text-left mt-3 mb-2" style={{ color: colors.text }}>
+        Frequency of Wear: {listing.frequency_of_wear}
       </p>
       
       <div className="flex justify-between items-center text-sm">

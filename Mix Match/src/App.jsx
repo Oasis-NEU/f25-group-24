@@ -14,9 +14,9 @@ function App() {
             id: 1,
             brand: "American Eagle",
             frequency_of_wear: 4,
-            category: "shirt",
-            size: "small",
-            color: "white",
+            category: "Shirt",
+            size: "Small",
+            color: "White",
             seller_name: "John Doe",
             seller_rating: 4.5,
             image: "https://s7d2.scene7.com/is/image/aeo/3375_1281_092_of?$pdp-m-opt$&fmt=webp"
@@ -25,9 +25,9 @@ function App() {
             id: 2,
             brand: "Garage",
             frequency_of_wear: 3,
-            category: "pants",
-            size: "medium",
-            color: "blue",
+            category: "Pants",
+            size: "Medium",
+            color: "Blue",
             seller_name: "Jane Smith",
             seller_rating: 4.8,
             image: "https://www.garageclothing.com/dw/image/v2/BDRP_PRD/on/demandware.static/-/Sites-root_garage_catalog/default/dwcd916bdf/images/100093068/100093068_07J_1920x2880.jpg?sw=740&sh=1110"
@@ -36,9 +36,9 @@ function App() {
             id: 3,
             brand: "Abecrombie and Fitch",
             frequency_of_wear: 12,
-            category: "pants",
-            size: "medium",
-            color: "black",
+            category: "Pants",
+            size: "Medium",
+            color: "Black",
             seller_name: "Mike Johnson",
             seller_rating: 4.2,
             image: "https://img.abercrombie.com/is/image/anf/KIC_155-4488-00559-977_life1?policy=product-large"
@@ -76,7 +76,6 @@ function App() {
         />
     );
 }
-
 
 
 export default App
