@@ -1,17 +1,27 @@
 import { Plus } from 'lucide-react';
 import { colors } from '../constants/colors';
 
-function Header({ onPostClick, cartItemCount, onCartClick }) {
+function Header({ onPostClick}) {
   return (
     <header 
       className="shadow-lg"
-      style={{ background: `linear-gradient(to right, ${colors.banner}, ${colors.banner})` }}
+      style={{ background: colors.banner }}
     >
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-end mb-2">
           <div>
-            <h1 className="font-serif text-5xl font-bold color: colors.text">Mix Match</h1>
-            <p className="font-serif color: colors.text text-left">Your Closet</p>
+            <h1 
+              className="font-serif text-5xl font-bold"
+              style={{ color: colors.text }}
+            >
+                Mix Match
+            </h1>
+            <p 
+              className="font-serif text-left"
+              style={{color: colors.text }}
+            >
+              Your Closet
+            </p>
           </div>
           <div className="flex gap-4">
             <button

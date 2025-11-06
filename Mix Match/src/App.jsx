@@ -1,95 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainPage from './pages/MainPage';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { supabase } from './supabaseClient'
-
-
-
+import './App.css';
+import { supabase } from './supabaseClient';
 
 function App() {
-    const [listings, setListings] = useState([
-        {
-            id: 1,
-            brand: "American Eagle",
-            frequency_of_wear: 4,
-            category: "Shirt",
-            size: "Small",
-            color: "White",
-            seller_name: "John Doe",
-            seller_rating: 4.5,
-            image: "https://s7d2.scene7.com/is/image/aeo/3375_1281_092_of?$pdp-m-opt$&fmt=webp"
-        },
-        {
-            id: 2,
-            brand: "Garage",
-            frequency_of_wear: 3,
-            category: "Pants",
-            size: "Medium",
-            color: "Blue",
-            seller_name: "Jane Smith",
-            seller_rating: 4.8,
-            image: "https://www.garageclothing.com/dw/image/v2/BDRP_PRD/on/demandware.static/-/Sites-root_garage_catalog/default/dwcd916bdf/images/100093068/100093068_07J_1920x2880.jpg?sw=740&sh=1110"
-        },
-        {
-            id: 3,
-            brand: "Abecrombie and Fitch",
-            frequency_of_wear: 12,
-            category: "Pants",
-            size: "Medium",
-            color: "Black",
-            seller_name: "Mike Johnson",
-            seller_rating: 4.2,
-            image: "https://img.abercrombie.com/is/image/anf/KIC_155-4488-00559-977_life1?policy=product-large"
-        }
-    ]);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    // Placeholder functions for Week 3
-    const handleCreateListing = (formData) => {
-  const newListing = {
-    id: Date.now(),  // simple unique id
-    brand: formData.brand,
-    frequency_of_wear: Number(formData.frequency_of_wear),
-    category: formData.category,
-    size: formData.size,
-    color: formData.color,
-    image: formData.image,           // 👈 image URL from modal
-    seller_name: 'You',
-    seller_rating: 5.0
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  async function fetchItems() {
+    try {
+      const { data, error } = await supabase
+        .from('item')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setItems(data || []);
+    } catch (error) {
+      console.error('Error fetching items:', error);
+      alert(`Error fetching items: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if(loading) return <div>Loading...</div>;
+
+  const handleCreateItem = async (formData) => {
+    try {
+      const { data, error } = await supabase
+        .from('item')
+        .insert([{
+          brand: formData.brand,
+          category: formData.category,
+          size: formData.size,
+          color: formData.color,
+          image: formData.image,
+          frequency_of_wear: Number(formData.frequency_of_wear)
+          /* seller_name: 'You',
+          seller_rating: 5.0 */
+        }])
+        .select();
+
+      if (error) throw error;
+      if (data && data.length > 0) {
+        setItems(prev => [data[0], ...prev]);
+      }
+    } catch (error) {
+      console.error('Error creating item:', error);
+      alert(`Error creating item: ${error.message}`);
+    }
   };
 
-  // Add new listing to top of the list
-  setListings(prev => [newListing, ...prev]);
-};
+  const handleDeleteItem = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('item')
+        .delete()
+        .eq('id', id);
 
-
-    const handleDeleteListing = (id) => {
-  setListings(prev => prev.filter(listing => listing.id !== id));
-};
-
-
-    const handleAddToCart = (listing) => {
-        console.log('Add to cart:', listing);
-        alert('Cart functionality will be added in a later week!');
-    };
-
-    const handleCartClick = () => {
-        alert('Cart page will be added in a later week!');
-    };
-
-    return (
-        <MainPage
-            listings={listings}
-            onCreateListing={handleCreateListing}
-            onDeleteListing={handleDeleteListing}
-            onAddToCart={handleAddToCart}
-            cartItemCount={0}
-            onNavigateToCart={handleCartClick}
-        />
-    );
+      if (error) throw error;
+      setItems(prev => prev.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      alert(`Error deleting item: ${error.message}`);
+    }
+  };
+  
+  return (
+    <MainPage
+      items={items}
+      onCreateItem={handleCreateItem}
+      onDeleteItem={handleDeleteItem}
+    />
+  );
 }
 
-
-export default App
+export default App;
 

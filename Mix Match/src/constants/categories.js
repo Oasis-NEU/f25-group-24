@@ -1,10 +1,10 @@
 export const categories = [
-    { value: "all", label: "All Items" },
-    { value: "hat", label: "Head Ware" },
-    { value: "top", label: "Tops"},
-    { value: "jacket", label: "Outerwear" },
-    { value: "pants", label: "Bottoms" },
-    { value: "shoes", label: "Shoes" },
-    { value: "accessories", label: "Accessories"},
-    { value: "jewerly", label: "Jewelry" }
+    { value: "All", label: "All Items" },
+    { value: "Hat", label: "Head Ware" },
+    { value: "Top", label: "Tops"},
+    { value: "Jacket", label: "Outerwear" },
+    { value: "Pants", label: "Bottoms" },
+    { value: "Shoes", label: "Shoes" },
+    { value: "Accessories", label: "Accessories"},
+    { value: "Jewelry", label: "Jewelry" }
 ];

@@ -2,7 +2,7 @@ import { X } from 'lucide-react';
 import { colors } from '../constants/colors';
 import { categories } from '../constants/categories';
 
-function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) {
+function CreateItemModal({ show, onClose, formData, setFormData, onSubmit }) {
   if (!show) return null;
 
   const handleChange = (field, value) => {
@@ -97,7 +97,7 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
               value={formData.image}
               onChange={(e) => handleChange('image', e.target.value)}
               className="w-full px-3 py-2 border rounded"
-              placeholder="https://example.com/image.jpg"
+              placeholder="https://media.istockphoto.com/id/1842732901/vector/loading-icon.jpg?s=612x612&w=0&k=20&c=L_SMRRBQieZHtnrySZmDuy25_rWvEea_UeTnJqD08XE="
             />
             {formData.image && (
               <div className="mt-2">
@@ -134,4 +134,4 @@ function CreateListingModal({ show, onClose, formData, setFormData, onSubmit }) 
   );
 }
 
-export default CreateListingModal;
+export default CreateItemModal;
