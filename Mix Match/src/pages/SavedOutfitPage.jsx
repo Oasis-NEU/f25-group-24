@@ -73,7 +73,7 @@ export default function SavedOutfitsPage() {
             Add Item
           </button>
         </div>
-        <h2 className="text-3xl font-semibold mb-6">Saved Outfits</h2>
+        {/*<h2 className="text-3xl font-semibold mb-6">Saved Outfits</h2>*/}
 
         <div className="flex items-center gap-3 mb-6">
           <button className="px-4 py-2 rounded-xl border bg-white">Filters</button>
