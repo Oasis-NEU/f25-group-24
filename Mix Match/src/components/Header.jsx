@@ -1,5 +1,6 @@
 import { Plus } from 'lucide-react';
 import { colors } from '../constants/colors';
+import { Link } from 'react-router-dom'
 
 function Header({ onPostClick}) {
   return (
@@ -16,22 +17,26 @@ function Header({ onPostClick}) {
             >
                 Mix Match
             </h1>
-            <p 
-              className="font-serif text-left"
-              style={{color: colors.text }}
-            >
-              Your Closet
-            </p>
           </div>
           <div className="flex gap-4">
-            <button
-              onClick={onPostClick}
-              className="bg-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+
+            <Link
+              to="/"
+              className="bg-white px-4 py-2 rounded-lg font-semibold"
               style={{ color: colors.banner }}
             >
-              <Plus size={20} />
-              Add Item
-            </button>
+              Your Closet
+            </Link>
+
+            <Link
+              to="/saved-outfits"
+              className="bg-white px-4 py-2 rounded-lg font-semibold"
+              style={{ color: colors.banner }}
+            >
+              Saved Outfits
+            </Link>
+
+          
             
           </div>
         </div>

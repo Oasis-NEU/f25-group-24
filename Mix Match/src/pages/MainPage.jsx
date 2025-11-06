@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Plus } from 'lucide-react';                  
 import { colors } from '../constants/colors';
 import ItemsGrid from '../components/ItemsGrid';
 import CreateItemModal from '../components/CreateItemModal';
@@ -52,13 +53,23 @@ function MainPage({ items, onCreateItem, onDeleteItem}) {
       />
 
       <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex justify-end mb-6">
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="bg-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+            style={{ color: colors.banner }}
+          >
+            <Plus size={20} />
+            Add Item
+          </button>
+        </div>
         <ItemsGrid
           items={items}
           onItemClick={setSelectedItem}
           onDeleteItem={handleDeleteItem}
         />
+        
       </main>
-
       <CreateItemModal
         show={showCreateModal}
         onClose={() => setShowCreateModal(false)}
@@ -66,6 +77,7 @@ function MainPage({ items, onCreateItem, onDeleteItem}) {
         setFormData={setFormData}
         onSubmit={handleCreateItem}
       />
+      
     </div>
   );
 }
