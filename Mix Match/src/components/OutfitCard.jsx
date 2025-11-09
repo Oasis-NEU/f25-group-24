@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react";
+import { colors } from '../constants/colors';
 
 function pieceToSrc(piece) {
   if (!piece) return null;
@@ -15,8 +16,8 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-md border hover:shadow-lg transition cursor-pointer overflow-hidden"
       onClick={() => onClick?.(outfit)}
+      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer"
     >
       <div className="p-4">
         {imgs.length > 0 ? (
@@ -48,8 +49,8 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
 
       <div className="px-6 pb-5">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-semibold">
-            Outfit #{idLabel} {outfit.name ? `– ${outfit.name}` : ""}
+          <h3 className="text-lg font-bold" style={{ color: colors.text}}>
+            {idLabel} {outfit.name ? ` ${outfit.name}` : ""}
           </h3>
 
           {onDelete && (
@@ -65,10 +66,6 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
             </button>
           )}
         </div>
-
-        <p className="text-sm text-gray-500">
-          {imgs.length} item{imgs.length !== 1 && "s"}
-        </p>
       </div>
     </div>
   );

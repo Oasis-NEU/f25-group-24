@@ -35,16 +35,6 @@ export default function SavedOutfitPage({ outfits = [] }) {
           </button>
         </div>
 
-        <div className="flex items-center gap-3 mb-6">
-          <button className="px-4 py-2 rounded-xl border bg-white">Filters</button>
-          <button
-            className="px-4 py-2 rounded-xl border bg-white"
-            title="Sort by new"
-          >
-            Sort ↓ New
-          </button>
-        </div>
-
         {sorted.length === 0 ? (
           <div className="bg-white rounded-xl p-6 border">
             No outfits yet — create one from your closet!
