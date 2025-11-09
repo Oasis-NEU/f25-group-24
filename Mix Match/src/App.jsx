@@ -1,36 +1,58 @@
-// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import { supabase } from './supabaseClient';
 
-import Header from './components/Header';              // make sure this is the combined Header with Saved Outfits button
 import MainPage from './pages/MainPage';
-import SavedOutfitsPage from './pages/SavedOutfitPage';
-// import CreateOutfitPage from './pages/CreateOutfitPage'; // if/when you add it
+import SavedOutfitPage from './pages/SavedOutfitPage';
 
 function AppInner() {
   const [items, setItems] = useState([]);
+  const [outfits, setOutfits] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [addTrigger, setAddTrigger] = useState(0);     // bump this to signal MainPage to open its add modal (if implemented)
-  const navigate = useNavigate();
+  const [addTrigger, setAddTrigger] = useState(0);
 
   useEffect(() => {
-    fetchItems();
+    fetchAllData();
   }, []);
 
-  async function fetchItems() {
+  async function fetchAllData() {
     try {
-      const { data, error } = await supabase
-        .from('item')                                 // your lowercase table
+      const { data: itemsData, error: itemsError } = await supabase
+        .from('item')
         .select('*')
         .order('created_at', { ascending: false });
+      if (itemsError) throw itemsError;
+      setItems(itemsData || []);
 
-      if (error) throw error;
-      setItems(data || []);
+      const { data: outfitsData, error: outfitsError } = await supabase
+        .from('outfits')
+        .select('*')
+        .order('outfit_id', { ascending: false });
+      if (outfitsError) throw outfitsError;
+
+      const itemMap = Object.fromEntries((itemsData || []).map(i => [i.id, i]));
+
+      const formattedOutfits = (outfitsData || []).map(o => {
+        let itemIds;
+        try {
+          itemIds = Array.isArray(o.items) ? o.items : JSON.parse(o.items || '[]');
+        } catch {
+          itemIds = [];
+        }
+
+        return {
+          id: o.id,
+          name: o.outfit_type || `Outfit #${o.id}`,
+          pieces: itemIds.map(id => itemMap[Number(id)]?.image).filter(Boolean),
+          created_at: o.created_at,
+        };
+      });
+
+      setOutfits(formattedOutfits);
     } catch (error) {
-      console.error('Error fetching items:', error);
-      alert(`Error fetching items: ${error.message}`);
+      console.error('Error fetching data:', error);
+      alert(`Error fetching data: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -46,7 +68,7 @@ function AppInner() {
           size: formData.size,
           color: formData.color,
           image: formData.image,
-          frequency_of_wear: Number(formData.frequency_of_wear),
+          frequency_of_wear: Number(formData.frequency_of_wear)
         }])
         .select();
 
@@ -66,21 +88,12 @@ function AppInner() {
         .from('item')
         .delete()
         .eq('id', id);
-
       if (error) throw error;
       setItems(prev => prev.filter(item => item.id !== id));
     } catch (error) {
       console.error('Error deleting item:', error);
       alert(`Error deleting item: ${error.message}`);
     }
-  };
-
-  // Header actions
-  const onPostClick = () => {
-    // If MainPage listens for addTrigger changes, this will open its modal.
-    setAddTrigger(t => t + 1);
-    // Ensure we’re on the main page where the modal exists:
-    navigate('/');
   };
 
   return (
@@ -96,12 +109,14 @@ function AppInner() {
                 items={items}
                 onCreateItem={handleCreateItem}
                 onDeleteItem={handleDeleteItem}
-                addTrigger={addTrigger} // optional; MainPage can ignore if not used
+                addTrigger={addTrigger}
               />
             }
           />
-          <Route path="/saved-outfits" element={<SavedOutfitsPage />} />
-          {/* <Route path="/create-outfit" element={<CreateOutfitPage />} /> */}
+          <Route
+            path="/saved-outfits"
+            element={<SavedOutfitPage outfits={outfits} />}
+          />
         </Routes>
       )}
     </>

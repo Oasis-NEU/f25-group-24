@@ -35,9 +35,6 @@ function Header({ onPostClick}) {
             >
               Saved Outfits
             </Link>
-
-          
-            
           </div>
         </div>
       </div>

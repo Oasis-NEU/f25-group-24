@@ -49,31 +49,6 @@ function ItemCard({ item, onClick, onDelete }) {
               </button>
             )}
       </div>
-      {/*
-      <div className="flex justify-end items-center mt-2">
-        <div className="flex items-center gap-1" style={{ color: colors.text }}>
-          <User size={14} />
-          <span>{item.seller_name}</span>
-        </div>*
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1" style={{ color: colors.banner }}>
-            <Star size={14} fill="currentColor" />
-            <span>{item.seller_rating}</span>
-          </div>*
-          {onDelete && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(item.id);
-              }}
-              className="text-red-500 hover:text-red-700 p-1"
-              title="Delete item"
-            >
-              <Trash2 size={14} />
-            </button>
-          )}
-        </div>
-      </div>*/}
     </div>
   );
 }

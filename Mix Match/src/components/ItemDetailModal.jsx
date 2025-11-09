@@ -28,14 +28,6 @@ function ItemDetailModal({ item, onClose, onDelete }) {
                 {item.brand}
               </h2>
               <div className="flex items-center gap-4 text-sm" style={{ color: colors.text }}>
-                {/*<div className="flex items-center gap-1">
-                  <User size={16} />
-                  <span>{item.seller_name}</span>
-                </div>
-                <div className="flex items-center gap-1" style={{ color: colors.accent }}>
-                  <Star size={16} fill="currentColor" />
-                  <span>{item.seller_rating}</span>
-                </div>*/}
                 <div className="flex items-center gap-1">
                   <span>{item.color}</span>
                 </div>

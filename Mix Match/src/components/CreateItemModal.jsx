@@ -25,7 +25,7 @@ function CreateItemModal({ show, onClose, formData, setFormData, onSubmit }) {
           onSubmit={(e) => { e.preventDefault(); onSubmit(); }}
           className="space-y-4"
         >
-          {/* Brand */}
+          
           <div>
             <label className="block mb-1 text-left">Brand</label>
             <input
@@ -66,8 +66,6 @@ function CreateItemModal({ show, onClose, formData, setFormData, onSubmit }) {
             </div>
           </div>
 
-
-          {/* Size */}
           <div>
             <label className="block mb-1 text-left">Size</label>
             <input
@@ -78,7 +76,6 @@ function CreateItemModal({ show, onClose, formData, setFormData, onSubmit }) {
             />
           </div>
 
-          {/* Color */}
           <div>
             <label className="block mb-1 text-left">Color</label>
             <input
@@ -89,7 +86,6 @@ function CreateItemModal({ show, onClose, formData, setFormData, onSubmit }) {
             />
           </div>
 
-          {/* 🔗 Image URL */}
           <div>
             <label className="block mb-1 text-left">Image URL</label>
             <input

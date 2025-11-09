@@ -1,16 +1,13 @@
-// src/components/OutfitCard.jsx
-import { User, Star, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 function pieceToSrc(piece) {
-  // supports either raw URL strings or item objects with `.image`
   if (!piece) return null;
   return typeof piece === "string" ? piece : piece.image || null;
 }
 
 export default function OutfitCard({ outfit, onDelete, onClick }) {
-  const imgs = (outfit.pieces ?? []).slice(0, 2).map(pieceToSrc).filter(Boolean);
+  const imgs = (outfit.pieces ?? []).map(pieceToSrc).filter(Boolean);
 
-  // show a short id if it's a UUID; otherwise the id as-is
   const idLabel =
     typeof outfit.id === "string" && outfit.id.includes("-")
       ? outfit.id.slice(0, 8)
@@ -18,46 +15,42 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-md border hover:shadow-lg transition cursor-pointer"
+      className="bg-white rounded-2xl shadow-md border hover:shadow-lg transition cursor-pointer overflow-hidden"
       onClick={() => onClick?.(outfit)}
     >
-      {/* Image strip (two images) */}
       <div className="p-4">
-        <div className="w-full h-40 bg-gray-100 rounded-xl overflow-hidden">
-          <div className="w-full h-full flex items-center justify-center gap-3 p-3">
-            {imgs.length ? (
-              imgs.map((src, i) => (
+        {imgs.length > 0 ? (
+          <div
+            className={`grid gap-2 ${
+              imgs.length === 1
+                ? "grid-cols-1"
+                : imgs.length === 2
+                ? "grid-cols-2"
+                : "grid-cols-3"
+            }`}
+          >
+            {imgs.map((src, i) => (
+              <div key={i} className="aspect-square overflow-hidden rounded-xl bg-gray-100">
                 <img
-                  key={i}
                   src={src}
                   alt={`piece-${i}`}
-                  className="h-full object-contain"
+                  className="object-cover w-full h-full"
                 />
-              ))
-            ) : (
-              <div className="text-gray-400">No images</div>
-            )}
+              </div>
+            ))}
           </div>
-        </div>
+        ) : (
+          <div className="h-40 flex items-center justify-center text-gray-400 bg-gray-100 rounded-xl">
+            No images
+          </div>
+        )}
       </div>
 
-      {/* Body */}
       <div className="px-6 pb-5">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold">
+          <h3 className="text-lg font-semibold">
             Outfit #{idLabel} {outfit.name ? `– ${outfit.name}` : ""}
           </h3>
-          <div className="flex items-center gap-1 text-sm text-gray-500">
-            <Star size={16} /> {outfit.rating ?? "—"}
-          </div>
-        </div>
-
-        {/* owner only (no tags) */}
-        <div className="flex items-center justify-between text-sm text-gray-600">
-          <div className="flex items-center gap-2">
-            <User size={16} />
-            {outfit.owner ?? "You"}
-          </div>
 
           {onDelete && (
             <button
@@ -66,12 +59,16 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
                 onDelete(outfit.id);
               }}
               className="text-rose-500 hover:text-rose-600"
-              title="Delete"
+              title="Delete outfit"
             >
               <Trash2 size={18} />
             </button>
           )}
         </div>
+
+        <p className="text-sm text-gray-500">
+          {imgs.length} item{imgs.length !== 1 && "s"}
+        </p>
       </div>
     </div>
   );
