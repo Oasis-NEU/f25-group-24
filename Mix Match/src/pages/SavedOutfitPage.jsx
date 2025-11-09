@@ -7,61 +7,21 @@ import Header from '../components/Header';
 import OutfitsGrid from '../components/OutfitGrid';
 import CreateOutfitModal from '../components/CreateOutfitModal';
 
-export default function SavedOutfitPage({ outfits = [], items = [] }) {
+export default function SavedOutfitPage({ outfits = [], items = [], onCreateOutfit }) {
   const navigate = useNavigate();
-
-  // Modal + form state
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    selectedItemIds: [], // array of item ids
+  const [formData, setFormData] = useState({ name: '', selectedItemIds: [] });
+
+  const combined = [...outfits].sort((a, b) => {
+    const at = a?.created_at ? +new Date(a.created_at) : 0;
+    const bt = b?.created_at ? +new Date(b.created_at) : 0;
+    return bt - at;
   });
 
-  // Local outfits created client-side (so they appear instantly)
-  const [localOutfits, setLocalOutfits] = useState([]);
-
-  const handleDelete = (id) => {
-    setLocalOutfits((prev) => prev.filter((o) => o.id !== id));
-  };
-
-  const openOutfit = (outfit) => {
-    console.log('Open outfit', outfit);
-  };
-
-  // Merge local + server outfits and sort newest first
-  const combined = [...localOutfits, ...outfits].sort((a, b) => {
-    const aTime = a?.created_at ? new Date(a.created_at).getTime() : 0;
-    const bTime = b?.created_at ? new Date(b.created_at).getTime() : 0;
-    return bTime - aTime;
-  });
-
-  // Create outfit: build images (pieces) from selected items
-  const handleCreateOutfit = () => {
-    if (!formData.name.trim()) {
-      alert('Please enter an outfit name.');
-      return;
-    }
-    if (!formData.selectedItemIds?.length) {
-      alert('Add at least one item.');
-      return;
-    }
-
-    const picked = new Set(formData.selectedItemIds.map(Number));
-    const pieceImages = items
-      .filter((it) => picked.has(Number(it.id)))
-      .map((it) => it.image)
-      .filter(Boolean);
-
-    const newOutfit = {
-      id: crypto.randomUUID?.() ?? Date.now(),
-      name: formData.name.trim(),        // use typed name only
-      pieces: pieceImages,               // thumbnails for the grid
-      created_at: new Date().toISOString(),
-    };
-
-    setLocalOutfits((prev) => [newOutfit, ...prev]);
-
-    // reset + close
+  const handleSubmit = async () => {
+    if (!formData.name.trim()) return alert('Please enter an outfit name.');
+    if (!formData.selectedItemIds.length) return alert('Add at least one item.');
+    await onCreateOutfit?.(formData);  // inserts into Supabase and updates parent state
     setFormData({ name: '', selectedItemIds: [] });
     setShowCreateModal(false);
   };
@@ -85,7 +45,7 @@ export default function SavedOutfitPage({ outfits = [], items = [] }) {
         {combined.length === 0 ? (
           <div className="bg-white rounded-xl p-6 border">No outfits yet — create one!</div>
         ) : (
-          <OutfitsGrid outfits={combined} onDelete={handleDelete} onOpen={openOutfit} />
+          <OutfitsGrid outfits={combined} />
         )}
       </main>
 
@@ -94,8 +54,8 @@ export default function SavedOutfitPage({ outfits = [], items = [] }) {
         onClose={() => setShowCreateModal(false)}
         formData={formData}
         setFormData={setFormData}
-        onSubmit={handleCreateOutfit}
-        items={items} // for searching by name in the modal (if you switched to in-modal fetch, remove this)
+        onSubmit={handleSubmit}
+        items={items}   // only needed if your modal shows local items anywhere
       />
     </div>
   );
