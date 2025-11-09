@@ -23,7 +23,7 @@ function AppInner() {
       // items (closet)
       const { data: itemsData, error: itemsError } = await supabase
         .from('item')
-        .select('id, name, brand, category, color, image, created_at')
+        .select('id, name, brand, category, color, size, frequency_of_wear, image, created_at')
         .order('created_at', { ascending: false });
       if (itemsError) throw itemsError;
       setItems(itemsData || []);
@@ -55,7 +55,6 @@ function AppInner() {
     }
   }
 
-  // ✅ Create a new outfit using the correct columns
   const handleCreateOutfit = async ({ name, selectedItemIds }) => {
     const payload = {
       outfit_type: name?.trim(),       // <-- maps to outfit_type

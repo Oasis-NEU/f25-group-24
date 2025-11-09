@@ -26,6 +26,13 @@ export default function SavedOutfitPage({ outfits = [], items = [], onCreateOutf
     setShowCreateModal(false);
   };
 
+  const handleDeleteOutfit = (id) => {
+    if (confirm("Are you sure you want to delete this item?")) {
+      onDeleteOutfit(id);
+      setSelectedItem(null);
+    }
+  };
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
       <Header onPostClick={() => navigate('/')} />
@@ -45,7 +52,9 @@ export default function SavedOutfitPage({ outfits = [], items = [], onCreateOutf
         {combined.length === 0 ? (
           <div className="bg-white rounded-xl p-6 border">No outfits yet — create one!</div>
         ) : (
-          <OutfitsGrid outfits={combined} />
+          <OutfitsGrid
+            outfits={combined}
+            onDelete={handleDeleteOutfit} />
         )}
       </main>
 

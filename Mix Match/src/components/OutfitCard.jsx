@@ -15,7 +15,6 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
       onClick={() => onClick?.(outfit)}
       className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer"
     >
-      {}
       <div className="p-4">
         {imgs.length > 0 ? (
           <div
@@ -61,11 +60,11 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
                 e.stopPropagation();
                 onDelete(outfit.id);
               }}
-              className="text-rose-500 hover:text-rose-600"
+              className="text-red-500 hover:text-red-700 p-1"
               title="Delete outfit"
               aria-label="Delete outfit"
             >
-              <Trash2 size={18} />
+              <Trash2 size={14} />
             </button>
           )}
         </div>
