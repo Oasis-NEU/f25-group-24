@@ -115,9 +115,9 @@ function AppInner() {
             }
           />
           <Route
-            path="/saved-outfits"
-            element={<SavedOutfitPage outfits={outfits} />}
-          />
+          path="/saved-outfits"
+          element={<SavedOutfitPage outfits={outfits} items={items} />}  // ✅ pass items
+/>
         </Routes>
       )}
     </>

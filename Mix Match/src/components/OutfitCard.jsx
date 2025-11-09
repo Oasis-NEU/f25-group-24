@@ -1,5 +1,6 @@
+// src/components/OutfitCard.jsx
 import { Trash2 } from "lucide-react";
-import { colors } from '../constants/colors';
+import { colors } from "../constants/colors";
 
 function pieceToSrc(piece) {
   if (!piece) return null;
@@ -9,16 +10,12 @@ function pieceToSrc(piece) {
 export default function OutfitCard({ outfit, onDelete, onClick }) {
   const imgs = (outfit.pieces ?? []).map(pieceToSrc).filter(Boolean);
 
-  const idLabel =
-    typeof outfit.id === "string" && outfit.id.includes("-")
-      ? outfit.id.slice(0, 8)
-      : outfit.id;
-
   return (
     <div
       onClick={() => onClick?.(outfit)}
       className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer"
     >
+      {}
       <div className="p-4">
         {imgs.length > 0 ? (
           <div
@@ -31,7 +28,10 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
             }`}
           >
             {imgs.map((src, i) => (
-              <div key={i} className="aspect-square overflow-hidden rounded-xl bg-gray-100">
+              <div
+                key={i}
+                className="aspect-square overflow-hidden rounded-xl bg-gray-100"
+              >
                 <img
                   src={src}
                   alt={`piece-${i}`}
@@ -47,20 +47,23 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
         )}
       </div>
 
+      {/* --- Title + Delete Button --- */}
       <div className="px-6 pb-5">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-lg font-bold" style={{ color: colors.text}}>
-            {idLabel} {outfit.name ? ` ${outfit.name}` : ""}
+        <div className="flex items-start justify-between mb-2">
+          <h3 className="text-lg font-bold" style={{ color: colors.text }}>
+            {outfit.name || "Untitled Outfit"}
           </h3>
 
           {onDelete && (
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete(outfit.id);
               }}
               className="text-rose-500 hover:text-rose-600"
               title="Delete outfit"
+              aria-label="Delete outfit"
             >
               <Trash2 size={18} />
             </button>
