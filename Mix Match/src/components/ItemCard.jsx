@@ -17,11 +17,14 @@ function ItemCard({ item, onClick, onDelete }) {
       />
       
       <h3 className="text-lg font-bold" style={{ color: colors.text }}>
-        Brand: {item.brand}
+        {item.name}
       </h3>
       
       
       <div className="flex gap-3">
+        <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
+          {item.brand}
+        </span>
         <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
           {item.size}
         </span>

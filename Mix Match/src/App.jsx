@@ -63,6 +63,7 @@ function AppInner() {
       const { data, error } = await supabase
         .from('item')
         .insert([{
+          name : formData.name,
           brand: formData.brand,
           category: formData.category,
           size: formData.size,

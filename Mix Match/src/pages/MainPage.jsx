@@ -10,6 +10,7 @@ function MainPage({ items, onCreateItem, onDeleteItem}) {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [formData, setFormData] = useState({
+    name: "",
     brand: "",
     category: "",
     size: "",
@@ -20,7 +21,7 @@ function MainPage({ items, onCreateItem, onDeleteItem}) {
 
 
   const handleCreateItem = () => {
-    if (!formData.brand || !formData.category
+    if (!formData.name || !formData.brand || !formData.category
       || !formData.size || !formData.color
       || !formData.image || !formData.frequency_of_wear) {
       alert("Please fill in all boxes");
@@ -29,6 +30,7 @@ function MainPage({ items, onCreateItem, onDeleteItem}) {
     
     onCreateItem(formData);
     setFormData({
+      name: "",
       brand: "",
       category: "",
       size: "",

@@ -25,7 +25,7 @@ function ItemDetailModal({ item, onClose, onDelete }) {
           <div className="flex justify-between items-start mb-4">
             <div>
               <h2 className="text-2xl font-bold" style={{ color: colors.text }}>
-                {item.brand}
+                {item.name}
               </h2>
               <div className="flex items-center gap-4 text-sm" style={{ color: colors.text }}>
                 <div className="flex items-center gap-1">

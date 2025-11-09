@@ -25,6 +25,16 @@ function CreateItemModal({ show, onClose, formData, setFormData, onSubmit }) {
           onSubmit={(e) => { e.preventDefault(); onSubmit(); }}
           className="space-y-4"
         >
+          <div>
+            <label className="block mb-1 text-left">Item Name</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => handleChange('name', e.target.value)}
+              className="w-full px-3 py-2 border rounded"
+              required
+            />
+          </div>
           
           <div>
             <label className="block mb-1 text-left">Brand</label>
