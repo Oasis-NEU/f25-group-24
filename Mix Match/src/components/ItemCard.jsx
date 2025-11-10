@@ -1,4 +1,4 @@
-import { User, Star, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { colors } from '../constants/colors';
 
 function ItemCard({ item, onClick, onDelete }) {

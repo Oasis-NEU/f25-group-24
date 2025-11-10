@@ -9,21 +9,19 @@ export default function CreateOutfitModal({
   if (!show) return null;
 
   const [query, setQuery] = useState('');
-  const [rows, setRows] = useState([]);        // [{id, name}]
+  const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
-  const nameCacheRef = useRef(new Map());      // id -> name (so chips keep labels)
+  const nameCacheRef = useRef(new Map());
 
-  // cache any names we see
   const cacheNames = (list) => {
     const cache = nameCacheRef.current;
     for (const r of list) if (r?.id != null && r?.name != null) cache.set(r.id, r.name);
   };
 
-  // fetch-by-name only when query has text
   async function fetchNames(q) {
     const trimmed = q.trim();
-    if (!trimmed) {            // ← nothing typed yet
+    if (!trimmed) {
       setRows([]);
       setLoading(false);
       setErrorText('');
@@ -51,12 +49,10 @@ export default function CreateOutfitModal({
     }
   }
 
-  // debounce typing a bit
   useEffect(() => {
     if (!show) return;
     const t = setTimeout(() => fetchNames(query), 200);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show, query]);
 
   const pickedIds = useMemo(
@@ -82,7 +78,6 @@ export default function CreateOutfitModal({
   const isPicked = (id) => pickedIds.has(id);
 
   const labelFor = (id) => {
-    // prefer cache so chips keep names even when rows are empty
     const cache = nameCacheRef.current;
     return cache.get(id) ?? rows.find(r => r.id === id)?.name ?? `Item #${id}`;
   };
@@ -98,7 +93,6 @@ export default function CreateOutfitModal({
         </div>
 
         <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }} className="space-y-5">
-          {/* Outfit name */}
           <div>
             <label className="block mb-1 text-left">Outfit Name</label>
             <input
@@ -111,7 +105,6 @@ export default function CreateOutfitModal({
             />
           </div>
 
-          {/* Search box (name only) */}
           <div>
             <label className="block mb-1 text-left">Search Items by Name</label>
             <input
@@ -150,7 +143,6 @@ export default function CreateOutfitModal({
             </div>
           </div>
 
-          {/* Selected items (text chips) */}
           <div>
             <label className="block mb-1 text-left">Selected Items</label>
             <div className="flex flex-wrap gap-2">

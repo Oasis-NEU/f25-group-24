@@ -1,4 +1,3 @@
-// App.jsx (AppInner)
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -16,19 +15,15 @@ function AppInner() {
     fetchAllData();
   }, []);
 
-  const safeParse = (v) => { try { return JSON.parse(v ?? '[]'); } catch { return []; } };
-
   async function fetchAllData() {
     try {
-      // items (closet)
       const { data: itemsData, error: itemsError } = await supabase
         .from('item')
         .select('id, name, brand, category, color, size, frequency_of_wear, image, created_at')
-        .order('created_at', { ascending: false });
+        .order('frequency_of_wear', { ascending: false });
       if (itemsError) throw itemsError;
       setItems(itemsData || []);
 
-      // outfits (use actual columns)
       const { data: outfitsData, error: outfitsError } = await supabase
         .from('outfits')
         .select('outfit_id, outfit_type, items, created_at')
@@ -37,7 +32,7 @@ function AppInner() {
 
       const itemMap = Object.fromEntries((itemsData || []).map(i => [Number(i.id), i]));
       const normalized = (outfitsData || []).map(o => {
-        const ids = Array.isArray(o.items) ? o.items : safeParse(o.items);
+        const ids = o.items ?? [];
         return {
           id: o.outfit_id,
           name: o.outfit_type || `Outfit #${o.outfit_id}`,
@@ -55,15 +50,38 @@ function AppInner() {
     }
   }
 
+  const handleCreateItem = async (id) => {
+    const { data, error } = await supabase
+      .from('item')
+      .insert([{
+        name: id.name,
+        brand: id.brand,
+        category: id.category,
+        size: id.size,
+        color: id.color,
+        image: id.image,
+        frequency_of_wear: Number(id.frequency_of_wear)
+      }])
+      .select();
+    if (error) { alert(error.message); return; }
+    if (data?.[0]) setItems(prev => [data[0], ...prev]);
+  };
+
+  const handleDeleteItem = async (id) => {
+    const { error } = await supabase.from('item').delete().eq('id', id);
+    if (error) { alert(error.message); return; }
+    setItems(prev => prev.filter(i => i.id !== id));
+  };
+
   const handleCreateOutfit = async ({ name, selectedItemIds }) => {
-    const payload = {
-      outfit_type: name?.trim(),       // <-- maps to outfit_type
-      items: selectedItemIds ?? [],    // <-- array/jsonb of item IDs
+    const newOutfit = {
+      outfit_type: name?.trim(),
+      items: selectedItemIds ?? [],
     };
 
     const { data, error } = await supabase
       .from('outfits')
-      .insert([payload])
+      .insert([newOutfit])
       .select('outfit_id, outfit_type, items, created_at');
 
     if (error) {
@@ -75,19 +93,24 @@ function AppInner() {
     const created = data?.[0];
     if (!created) return;
 
-    // map to UI shape
     const itemMap = Object.fromEntries(items.map(i => [Number(i.id), i]));
-    const ids = Array.isArray(created.items) ? created.items : safeParse(created.items);
+    const ids = created.items ?? [];
     const pieces = (ids || []).map(id => itemMap[Number(id)]?.image).filter(Boolean);
 
-    const normalized = {
+    const formattedOutfit = {
       id: created.outfit_id,
       name: created.outfit_type || `Outfit #${created.outfit_id}`,
       pieces,
       created_at: created.created_at,
     };
 
-    setOutfits(prev => [normalized, ...prev]); // show immediately
+    setOutfits(prev => [formattedOutfit, ...prev]);
+  };
+
+  const handleDeleteOutfit = async (id) => {
+    const { error } = await supabase.from('outfits').delete().eq('outfit_id', id);
+    if (error) { alert(error.message); return; }
+    setOutfits(prev => prev.filter(o => o.id !== id));
   };
 
   return (
@@ -101,27 +124,8 @@ function AppInner() {
             element={
               <MainPage
                 items={items}
-                onCreateItem={async (fd) => {
-                  const { data, error } = await supabase
-                    .from('item')
-                    .insert([{
-                      name: fd.name,
-                      brand: fd.brand,
-                      category: fd.category,
-                      size: fd.size,
-                      color: fd.color,
-                      image: fd.image,
-                      frequency_of_wear: Number(fd.frequency_of_wear)
-                    }])
-                    .select();
-                  if (error) { alert(error.message); return; }
-                  if (data?.[0]) setItems(prev => [data[0], ...prev]);
-                }}
-                onDeleteItem={async (id) => {
-                  const { error } = await supabase.from('item').delete().eq('id', id);
-                  if (error) { alert(error.message); return; }
-                  setItems(prev => prev.filter(i => i.id !== id));
-                }}
+                onCreateItem={handleCreateItem}
+                onDeleteItem={handleDeleteItem}
               />
             }
           />
@@ -131,7 +135,8 @@ function AppInner() {
               <SavedOutfitPage
                 items={items}
                 outfits={outfits}
-                onCreateOutfit={handleCreateOutfit}  // pass creator
+                onCreateOutfit={handleCreateOutfit}
+                onDeleteOutfit={handleDeleteOutfit}
               />
             }
           />

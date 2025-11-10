@@ -1,4 +1,4 @@
-import { X, Trash2, User, Star } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 import { colors } from '../constants/colors';
 
 function ItemDetailModal({ item, onClose, onDelete }) {

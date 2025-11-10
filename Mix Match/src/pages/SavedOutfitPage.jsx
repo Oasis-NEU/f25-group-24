@@ -1,4 +1,3 @@
-// src/pages/SavedOutfitPage.jsx
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -7,9 +6,10 @@ import Header from '../components/Header';
 import OutfitsGrid from '../components/OutfitGrid';
 import CreateOutfitModal from '../components/CreateOutfitModal';
 
-export default function SavedOutfitPage({ outfits = [], items = [], onCreateOutfit }) {
+export default function SavedOutfitPage({ outfits = [], items = [], onCreateOutfit, onDeleteOutfit }) {
   const navigate = useNavigate();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedOutfit, setSelectedOutfit] = useState(null);
   const [formData, setFormData] = useState({ name: '', selectedItemIds: [] });
 
   const combined = [...outfits].sort((a, b) => {
@@ -21,15 +21,15 @@ export default function SavedOutfitPage({ outfits = [], items = [], onCreateOutf
   const handleSubmit = async () => {
     if (!formData.name.trim()) return alert('Please enter an outfit name.');
     if (!formData.selectedItemIds.length) return alert('Add at least one item.');
-    await onCreateOutfit?.(formData);  // inserts into Supabase and updates parent state
+    await onCreateOutfit?.(formData);
     setFormData({ name: '', selectedItemIds: [] });
     setShowCreateModal(false);
   };
 
   const handleDeleteOutfit = (id) => {
-    if (confirm("Are you sure you want to delete this item?")) {
+    if (confirm("Are you sure you want to delete this outfit?")) {
       onDeleteOutfit(id);
-      setSelectedItem(null);
+      setSelectedOutfit(null);
     }
   };
 
@@ -64,7 +64,7 @@ export default function SavedOutfitPage({ outfits = [], items = [], onCreateOutf
         formData={formData}
         setFormData={setFormData}
         onSubmit={handleSubmit}
-        items={items}   // only needed if your modal shows local items anywhere
+        items={items}
       />
     </div>
   );

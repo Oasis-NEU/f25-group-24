@@ -1,4 +1,3 @@
-// src/components/OutfitsGrid.jsx
 import OutfitCard from "./OutfitCard";
 
 export default function OutfitsGrid({ outfits, onDelete, onOpen }) {

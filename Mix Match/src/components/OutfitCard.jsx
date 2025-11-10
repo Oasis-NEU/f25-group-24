@@ -1,4 +1,3 @@
-// src/components/OutfitCard.jsx
 import { Trash2 } from "lucide-react";
 import { colors } from "../constants/colors";
 
@@ -46,7 +45,6 @@ export default function OutfitCard({ outfit, onDelete, onClick }) {
         )}
       </div>
 
-      {/* --- Title + Delete Button --- */}
       <div className="px-6 pb-5">
         <div className="flex items-start justify-between mb-2">
           <h3 className="text-lg font-bold" style={{ color: colors.text }}>
