@@ -31,7 +31,7 @@ function AppInner() {
       if (outfitsError) throw outfitsError;
 
       const itemMap = Object.fromEntries((itemsData || []).map(i => [Number(i.id), i]));
-      const normalized = (outfitsData || []).map(o => {
+      const newOutfit = (outfitsData || []).map(o => {
         const ids = o.items ?? [];
         return {
           id: o.outfit_id,
@@ -41,7 +41,7 @@ function AppInner() {
         };
       });
 
-      setOutfits(normalized);
+      setOutfits(newOutfit);
     } catch (err) {
       console.error('Error fetching data:', err);
       alert(`Error fetching data: ${err.message}`);
